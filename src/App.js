@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Form from './Components/Form';
+import MovieInfo from './Components/MovieInfo';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const [movieData, setMovieData] = useState({});
+  
+  const handleSubmit = (title) => {
+	  console.log('search for movie')
+	fetch(`http://www.omdbapi.com/?t=${title}&apikey=af739194`)
+	.then((response) => response.json())
+	.then((data) => {
+		console.log(data)
+		setMovieData(data)
+	})
+  }
+  
+	return (
+		<div className='App'>
+			<Form handleSubmit={handleSubmit} />
+			<MovieInfo movieData={movieData} />
+		</div>
+	)
 }
 
 export default App;
